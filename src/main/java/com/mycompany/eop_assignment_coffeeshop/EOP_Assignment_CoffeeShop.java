@@ -14,8 +14,11 @@ static int drinkID = 1;
 static int drinkOrderStore = 0;
 static String drinkOrderString = "";
 static String name, price, userInput;
+static String tempBeverageName;
+static int tempBeveragePrice;
+static int tempTotalPrice = 0;
 static int orderID = 1;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         int x, z = 0;
         Scanner input = new Scanner(System.in);
         System.out.println("Enter Your Staff ID for Authentication:");
@@ -72,17 +75,19 @@ static int orderID = 1;
                                 searchBeverage(userInput);
                             }
                             break;
-                    case 5: System.out.println("Insert the name of customer, then the drinks ID in the order separated by a space. \n When you're done, end with -1");
+                    case 5: System.out.println("Insert the name of customer, then the beverage ID. Press Enter for every drink. \n When you're done, end with -1");
                             String custName = input.nextLine();
-                            do{ 
+                            /*do{ 
                                 drinkOrderStore = input.nextInt();
                                 drinkOrderString += Integer.toString(drinkOrderStore);                               
-                            }while(drinkOrderStore != -1);
-                            makeOrder(custName, drinkOrderString);
+                            }while(drinkOrderStore != -1);*/
+                            makeOrder(custName);
                             break;
                     case 6: System.out.println("Provide Order ID to display:");
+                            checkOrder(input.nextInt());
                             break;
-                    case 7: System.out.println("Provide Order ID to print into file");
+                    case 7: System.out.println("Provide Order ID to print receipt into file");
+                            printOrder(input.nextInt());
                             break;
         }
     }while(!(x==8));
@@ -135,39 +140,45 @@ static int orderID = 1;
         System.out.println("Drink found! Details:");
         System.out.println("Name:" + beverage[0][ID]);
         System.out.println("Price:" + beverage[1][ID]);
+        tempBeverageName = beverage[0][ID];
+        tempBeveragePrice = Integer.parseInt(beverage[1][ID]);
         return ID;
     }
-    static void makeOrder(String custName, String drinks) { //make an order
+    static void makeOrder(String custName) { //make an order
+        tempTotalPrice = 0;
+        Scanner input = new Scanner(System.in);
         order[0][orderID] = custName;
-        order[1][orderID] = drinks;
+        int drinkInput = 0;
+        order[1][orderID] = " ";
+        drinkInput = input.nextInt();
+        while(drinkInput != -1){
+            order[1][orderID] += ("ID: " + searchBeverage(drinkInput) + " Beverage: " + tempBeverageName);
+            tempTotalPrice += tempBeveragePrice;
+            drinkInput = input.nextInt();
+        }
+        order[2][orderID] = Integer.toString(tempTotalPrice);
         System.out.println("Order successfully stored and can be printed into a file. Order ID is"+orderID);   
         orderID++;        
     }
-    
-    static void printOrder(int orderIDPrint){ //print order using File I/O
-        try {
-      File myObj = new File("Order # "+Integer.toString(orderIDPrint)+".txt");
-      if (myObj.createNewFile()) {
-        System.out.println("File created: " + myObj.getName());
-      } else {
-        System.out.println("File already exists. Please try again!");
-      }
-    } catch (IOException e) {
-      System.out.println("Unfortunately, an error has occured. Please try again!");
-      e.printStackTrace();
-      
+    static String checkOrder(int ID){
+        System.out.println("Name of customer:"+ order[0][ID]);
+        System.out.println("Order contents:");
+        System.out.println(order[1][ID]);
+        System.out.println("Total price = RM" + order[2][ID]);
+        return "Name of customer:"+ order[0][ID]+"\n"+"Order contents: "+order[1][ID]+"\n"+"Total price = RM" + order[2][ID];
     }
-        try {
-      File myObj = new File("filename.txt");
-      if (myObj.createNewFile()) {
-        System.out.println("File created: " + myObj.getName());
-      } else {
-        System.out.println("File already exists.");
-      }
-    } catch (IOException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
-    }
+            
+    static void printOrder(int orderIDPrint) throws IOException{ //print order using File I/O
+        try{
+        String nameOfFile = "Receipt for Order #"+Integer.toString(orderIDPrint);
+        BufferedWriter file = new BufferedWriter(new FileWriter(nameOfFile));
+        file.write(checkOrder(orderIDPrint));
+        file.close();
+        System.out.println(nameOfFile+" successfully printed!");
+        }
+        catch(IOException e) {
+        e.printStackTrace();
+        }
   }
     static void editBeverage(int ID){
         Scanner input = new Scanner(System.in);
