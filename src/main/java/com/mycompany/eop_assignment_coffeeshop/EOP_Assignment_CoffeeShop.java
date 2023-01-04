@@ -1,4 +1,4 @@
-/*
+ /*
  * Group: I Love Luqman
 TOPIC: COFFEE SHOP MANAGEMENT SYSTEM
  */
@@ -21,7 +21,7 @@ static int orderID = 1;
     public static void main(String[] args) throws IOException{
         int x, z = 0;
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter Your Staff ID for Authentication:");
+        System.out.print("Enter Your Staff ID for Authentication: ");
         int staffID = input.nextInt();
         while(z != 1){
             if(staff[staffID] != null){
@@ -33,22 +33,22 @@ static int orderID = 1;
                 z = 2;
             }
         }
-        System.out.println("Coffee Shop Menu Management System. What would you like to do today?");
+        System.out.println("\nCoffee Shop Menu Management System. What would you like to do today?");
         do{
-            System.out.println("1 = Add Beverage | 2 = Remove Beverage | 3 = Edit Beverage | 4 = Search Beverage | \n 5 = Make An Order | 6 = Display Order | 7 = Print Order as Text File| 8 = Exit Program");
+            System.out.println("1 = Add Beverage\t\t2 = Remove Beverage\n3 = Edit Beverage\t\t4 = Search Beverage\n5 = Make An Order\t\t6 = Display Order\n7 = Print Order as Text File\t8 = Exit Program");
                 do{
-                    System.out.println("Insert a value between 1 to 8.");
+                    System.out.print("Insert a value between 1 to 8: ");
                     x = input.nextInt();
                     input.nextLine();
                 }while(!(x >= 1 && x <= 8));
                 switch(x){
-                    case 1: System.out.println("Provide name of beverage.");
+                    case 1: System.out.print("\nProvide name of beverage: ");
                             name = input.nextLine(); 
-                            System.out.println("Provide price of beverage.");
+                            System.out.print("Provide price of beverage: RM");
                             price = input.nextLine();
                             addBeverage(name, price);
                             break;
-                    case 2: System.out.println("Provide ID or Name of beverage to delete:");
+                    case 2: System.out.print("Provide ID or Name of beverage to delete: ");
                             userInput = input.nextLine();
                             if (Character.isDigit(userInput.charAt(0)) == true){
                                 removeBeverage(Integer.parseInt(userInput));
@@ -57,7 +57,7 @@ static int orderID = 1;
                                 removeBeverage(userInput);
                              }
                             break;
-                    case 3: System.out.println("Provide ID or Name of beverage to edit:");
+                    case 3: System.out.print("Provide ID or Name of beverage to edit: ");
                             userInput = input.nextLine();
                             if (Character.isDigit(userInput.charAt(0)) == true){
                                 editBeverage(Integer.parseInt(userInput));
@@ -66,7 +66,7 @@ static int orderID = 1;
                                 editBeverage(userInput);
                             }
                             break;
-                    case 4: System.out.println("Provide ID or Name of beverage to search:");
+                    case 4: System.out.print("Provide ID or Name of beverage to search: ");
                             userInput = input.nextLine();
                             if (Character.isDigit(userInput.charAt(0)) == true){
                                 searchBeverage(Integer.parseInt(userInput));
@@ -75,7 +75,7 @@ static int orderID = 1;
                                 searchBeverage(userInput);
                             }
                             break;
-                    case 5: System.out.println("Insert the name of customer, then the beverage ID. Press Enter for every drink. \n When you're done, end with -1");
+                    case 5: System.out.print("Insert the name of customer, then the beverage ID. Press Enter for every drink.\nWhen you're done, end with -1: ");
                             String custName = input.nextLine();
                             /*do{ 
                                 drinkOrderStore = input.nextInt();
@@ -83,28 +83,28 @@ static int orderID = 1;
                             }while(drinkOrderStore != -1);*/
                             makeOrder(custName);
                             break;
-                    case 6: System.out.println("Provide Order ID to display:");
+                    case 6: System.out.print("Provide Order ID to display: ");
                             checkOrder(input.nextInt());
                             break;
-                    case 7: System.out.println("Provide Order ID to print receipt into file");
+                    case 7: System.out.print("Provide Order ID to print receipt into file: ");
                             printOrder(input.nextInt());
                             break;
         }
     }while(!(x==8));
-    System.out.println("Program is exited by user");
+    System.out.println("\nProgram is exited by user.");
 }
     static void addBeverage(String name, String price){
         beverage[0][drinkID] = name;
         beverage[1][drinkID] = price;
-        System.out.println("Drink is given an ID. ID of drink is:" + drinkID);
+        System.out.println("Drink is given an ID. ID of drink is: " + drinkID);
         drinkID++;
-        
+
     }
     static void removeBeverage(int ID){
-        System.out.println("Drink to be removed is " + beverage[0][ID]);
+        System.out.println("Drink to be removed is " + beverage[0][ID] + ".");
         beverage[0][ID] = null;
         beverage[1][ID] = null;
-        System.out.println("Drink successfully removed");        
+        System.out.println("Drink successfully removed.");        
 
     }
     static void removeBeverage(String name){
@@ -113,7 +113,7 @@ static int orderID = 1;
         beverage[0][ID] = null;
         beverage[1][ID] = null;
         System.out.println("Drink successfully removed");         
-        
+
     }    
     static int searchBeverage(String name){
         int i;
@@ -122,8 +122,8 @@ static int orderID = 1;
             if(beverage[0][i] != null){
                 if(beverage[0][i].equals(name) == true){
                 System.out.println("Drink found! Details:");
-                System.out.println("Name:" + beverage[0][i]);
-                System.out.println("Price:" + beverage[1][i]);
+                System.out.println("Name: " + beverage[0][i]);
+                System.out.println("Price: " + beverage[1][i]);
                 break;  
             }
         }
@@ -138,8 +138,8 @@ static int orderID = 1;
         ID = input.nextInt();
         }
         System.out.println("Drink found! Details:");
-        System.out.println("Name:" + beverage[0][ID]);
-        System.out.println("Price:" + beverage[1][ID]);
+        System.out.println("Name: " + beverage[0][ID]);
+        System.out.println("Price: " + beverage[1][ID]);
         tempBeverageName = beverage[0][ID];
         tempBeveragePrice = Integer.parseInt(beverage[1][ID]);
         return ID;
@@ -152,22 +152,22 @@ static int orderID = 1;
         order[1][orderID] = " ";
         drinkInput = input.nextInt();
         while(drinkInput != -1){
-            order[1][orderID] += ("ID: " + searchBeverage(drinkInput) + " Beverage: " + tempBeverageName);
+            order[1][orderID] += ("ID: " + searchBeverage(drinkInput) + " Beverage: " + tempBeverageName + "\n");
             tempTotalPrice += tempBeveragePrice;
             drinkInput = input.nextInt();
         }
         order[2][orderID] = Integer.toString(tempTotalPrice);
-        System.out.println("Order successfully stored and can be printed into a file. Order ID is"+orderID);   
+        System.out.println("Order successfully stored and can be printed into a file. Order ID is "+orderID);   
         orderID++;        
     }
     static String checkOrder(int ID){
-        System.out.println("Name of customer:"+ order[0][ID]);
-        System.out.println("Order contents:");
+        System.out.println("Name of customer: "+ order[0][ID]);
+        System.out.println("Order contents: ");
         System.out.println(order[1][ID]);
-        System.out.println("Total price = RM" + order[2][ID]);
-        return "Name of customer:"+ order[0][ID]+"\n"+"Order contents: "+order[1][ID]+"\n"+"Total price = RM" + order[2][ID];
+        System.out.println("Total price = RM " + order[2][ID]);
+        return "Name of customer: "+ order[0][ID]+"\n"+"Order contents: "+order[1][ID]+"Total price = RM" + order[2][ID];
     }
-            
+
     static void printOrder(int orderIDPrint) throws IOException{ //print order using File I/O
         try{
         String nameOfFile = "Receipt for Order #"+Integer.toString(orderIDPrint);
@@ -182,19 +182,19 @@ static int orderID = 1;
   }
     static void editBeverage(int ID){
         Scanner input = new Scanner(System.in);
-        System.out.println("The beverage that you wish to edit is:" + beverage[0][ID]);        
-        System.out.println("Insert new name of beverage:");
+        System.out.print("The beverage that you wish to edit is: " + beverage[0][ID]);        
+        System.out.print("Insert new name of beverage: ");
         beverage[0][ID] = input.nextLine();
-        System.out.println("Insert new price of beverage:");        
+        System.out.print("Insert new price of beverage: ");        
         beverage[1][ID] = input.nextLine();
         System.out.println("Your edit is a success!");         
     }
     static void editBeverage(String name){
         Scanner input = new Scanner(System.in);
         int ID = searchBeverage(name);
-        System.out.println("Insert new name of beverage:");
+        System.out.print("Insert new name of beverage: ");
         beverage[0][ID] = input.nextLine();
-        System.out.println("Insert new price of beverage:");        
+        System.out.print("Insert new price of beverage: ");        
         beverage[1][ID] = input.nextLine();
         System.out.println("Your edit is a success!");        
     }
